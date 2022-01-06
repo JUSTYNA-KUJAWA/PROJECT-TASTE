@@ -1,0 +1,21 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: $color-dark;
+  font-family: $font-main;
+  font-size: $base-size;
+  line-height: 1.7;
+  font-weight: $font-regular;
+  color: $color-light;
+}
+  
+.container {
+  margin-top: 200px;
+}
+  
+.row {
+  @include flex(row, center, center);
+}

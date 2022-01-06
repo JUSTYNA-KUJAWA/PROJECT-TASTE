@@ -1,0 +1,16 @@
+h1 {
+  font-size: $base-size * 10;
+  line-height: 0;
+  @include ls(120px);
+}
+  
+h2 {
+  font-size: $base-size + 16;
+  line-height: 1.7;
+  @include ls(10px);
+}
+  
+h3 {
+  font-size: $base-size + 10;
+  font-weight: $font-semibold;
+}
