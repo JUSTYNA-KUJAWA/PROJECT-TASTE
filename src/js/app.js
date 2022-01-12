@@ -1,5 +1,5 @@
 import {select, settings, classNames} from './settings.js';
-import Song from './components/Song.js';
+import MusicPage from './components/MusicPage.js';
 
 const app = {
   initData: function(){
@@ -7,25 +7,45 @@ const app = {
 
     thisApp.data = {};
 
-    const url = settings.db.url + '/' + settings.db.songs;
+    const urls = {
+      songs: settings.db.url + '/' + settings.db.songs,
+      authors: settings.db.url + '/' + settings.db.authors,
+    };
 
-    fetch(url)
-      .then(function(rawResponse){
-        return rawResponse.json();
+    Promise.all([
+      fetch(urls.songs),
+      fetch(urls.authors),
+    ])
+      .then(function(allResponses){
+        const songsResponse = allResponses[0];
+        const authorsResponse = allResponses[1];
+        return Promise.all([
+          songsResponse.json(),
+          authorsResponse.json(),
+        ]);
       })
-      .then(function(parsedResponse){
-        thisApp.data.songs = parsedResponse;
-        thisApp.initSongs();
+      .then(function([songs, authors]){
+        thisApp.parseData(songs, authors);
       });
   },
 
-  initSongs: function(){
-    const thisApp = this;
+  parseData: function(songs, authors){
+    for(let song in songs){
 
-    for (let songData in thisApp.data.songs){
-      new Song(thisApp.data.songs[songData].id, thisApp.data.songs[songData]);
+      let songAuthor = songs[song].author;
+
+      for(let author in authors){
+        const authorName = authors[author].name;
+        const authorID = authors[author].id;
+        
+        if(songAuthor === authorID){
+          songs[song].author = authorName;
+          break;
+        }
+      }
     }
-    thisApp.initPlayer();
+  
+    new MusicPage(songs);
   },
 
   initPages: function(){
@@ -45,7 +65,7 @@ const app = {
       }
     }
 
-    thisApp.activatePage(thisApp.pages[pageMatchingHash].id);
+    thisApp.activatePage(pageMatchingHash);
 
     for(let link of thisApp.navLinks){
       link.addEventListener('click', function(event){
@@ -55,7 +75,7 @@ const app = {
         const id = clickedElement.getAttribute('href').replace('#', '');
 
         thisApp.activatePage(id);
-
+      
         window.location.hash = '#/' + id;
       });
     }
@@ -79,6 +99,8 @@ const app = {
   init: function(){
     const thisApp = this;
 
+    thisApp.data = {};
+
     console.log('*** App starting ***');
     console.log('thisApp:', thisApp);
     console.log('settings:', settings);
@@ -86,6 +108,9 @@ const app = {
 
     thisApp.initData();
     thisApp.initPages();
+
+    //console.log('data', thisApp.data);
+    //console.log('songs', thisApp.data.songs);
   }
 };
 

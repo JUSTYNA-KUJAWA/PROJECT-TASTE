@@ -42,6 +42,7 @@
     margin-right: $base-size;
     text-align: center;
     padding: $base-size ($base-size * 2);
+    @include ls(3px);
 
     &.active {
       color: $color-light;

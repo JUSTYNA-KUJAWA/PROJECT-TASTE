@@ -1,0 +1,81 @@
+.subscribe {
+  min-height: 1023px;
+  position: relative;
+  background-image: url('../../assets/images/subscribe.jpg');
+  background-position: center center;
+  background-size: cover;
+  margin-top: 150px;
+  
+  .row {
+    padding-top: 150px;
+  }
+}
+  
+.join-button {
+  @include flex(row, center, center);
+  margin-bottom: 20px;
+  
+  a {
+    text-decoration: none;
+  }
+}
+  
+.artist {
+  @include flex(row, right, center);
+  
+  &__img {
+    position: relative;
+    background-image: url('../../assets/images/artist.jpg');
+    background-position: center center;
+    background-size: cover;
+    height: 578px;
+    width: 465px;
+  }
+  
+  &__name {
+    position: absolute;
+    left: -50%;
+    bottom: 15%;
+    font-size: $base-size * 5;
+  
+    p {
+      font-weight: $font-black;
+      @include ls(10px);
+      margin: -50px;
+  
+      span {
+        color: $color-main;
+        font-weight: $font-bold;
+      }
+    }
+  
+    p:nth-child(2) {
+      margin-left: 20px;
+    }
+  }
+  
+  &__slogan {
+    position: absolute;
+    font-size: $base-size *2;
+    right: -5%;
+    bottom: -25%;
+    text-align: right;
+  
+    p {
+      margin: -10px;
+    }
+  
+    p:nth-child(1) {
+      text-transform: uppercase;
+      color: $color-secondary;
+      font-weight: $font-bold;
+      @include ls(5px);
+    }
+  
+    p:nth-child(2) {
+      margin-left: 20px;
+      color: $color-light;
+      @include ls(10px);
+    }
+  }
+}

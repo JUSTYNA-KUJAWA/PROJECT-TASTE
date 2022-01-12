@@ -1,0 +1,37 @@
+.searchInput {
+  width: 100%;
+  height: 59px;
+  border-radius: $radius;
+  
+  font-size: $base-size + 10;
+  font-family: $font-main;
+  color: $color-dark;
+  
+  &:focus-visible {
+    outline: $color-secondary auto 1px;
+  }
+}
+  
+  
+.search__name {
+  text-align: right;
+  padding: 0;
+}
+  
+.search__category {
+  text-align: right;
+  padding: 0;
+}
+  
+.search-button__wrapper {
+  display: flex;
+  justify-content: center;
+}
+  
+  
+.search_success {
+  font-size: $base-size + 10;
+  font-weight: $font-semibold;
+  text-align: center;
+  @include ls(5px);
+}

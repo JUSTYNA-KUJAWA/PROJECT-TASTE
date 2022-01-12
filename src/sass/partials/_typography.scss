@@ -3,14 +3,50 @@ h1 {
   line-height: 0;
   @include ls(120px);
 }
-  
+
 h2 {
   font-size: $base-size + 16;
   line-height: 1.7;
   @include ls(10px);
 }
-  
+
 h3 {
   font-size: $base-size + 10;
   font-weight: $font-semibold;
+}
+
+h4 {
+  font-size: $base-size * 3;
+  font-weight: $font-semibold;
+  text-transform: uppercase;
+  text-align: center;
+  color: $color-secondary;
+  letter-spacing: 20px;
+  text-indent: -30px;
+  margin-bottom: 0;
+}
+
+h5 {
+  font-size: $base-size + 10;
+  font-weight: $font-semibold;
+  color: $color-secondary;
+  @include ls(5px);
+}
+
+h6 {
+  position: absolute;
+  z-index: 1;
+  top: -32%;
+  left: 50%;
+  transform: translate(-50%);
+  font-size: $base-size * 5;
+  text-transform: uppercase;
+  font-weight: $font-regular;
+  white-space: nowrap;
+  overflow: hidden;
+  @include ls(10px);
+
+  span {
+    font-weight: $font-bold;
+  }
 }
