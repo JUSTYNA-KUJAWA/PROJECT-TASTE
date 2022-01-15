@@ -1,17 +1,17 @@
-import SongPage from './SongPage.js';
+import Song from './Song.js';
 import { select } from './../settings.js';
 import utils from '../utils.js';
-import PlayerPage from './PlayerPage.js';
+import Player from './Player.js';
 
 class SearchPage {
-  constructor(songsData) {
+  constructor(searchElem, songsData) {
     const thisSearchPage = this;
 
     thisSearchPage.data = {};
     thisSearchPage.data.songs = songsData;
 
     thisSearchPage.getElements();
-    thisSearchPage.renderSongs();
+    thisSearchPage.renderSongs(searchElem);
     thisSearchPage.initWidgets();
   }
 
@@ -67,7 +67,7 @@ class SearchPage {
       }
 
       for (let song of matchedSongs){
-        new SongPage(song, thisSearchPage.dom.wrapper);
+        new Song(song, thisSearchPage.dom.wrapper);
       }
       
       thisSearchPage.initWidgets();
@@ -78,7 +78,7 @@ class SearchPage {
   }
 
   initWidgets() {
-    new PlayerPage(select.player.searchPage) ;
+    new Player(select.player.searchPage) ;
   }
 }
 

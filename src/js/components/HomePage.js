@@ -1,23 +1,25 @@
-import SongPage from './SongPage.js';
+import Song from './Song.js';
 import { select, classNames } from '../settings.js';
 import utils from '../utils.js';
-import PlayerPage from './DiscoverPage.js';
+import Player from './Player.js';
 
 class HomePage {
-  constructor(songsData, categories) {
+  constructor(homeElem,songsData, categories) {
     const thisHomePage = this;
+    const homeElem = document.querySelector('.songs-home')
 
     thisHomePage.data = {};
     thisHomePage.data.songs = songsData;
     thisHomePage.data.categories = categories;
-
+    console.log('thisHomePage.data.categories', thisHomePage.data.categories);
     thisHomePage.getElements();
-    thisHomePage.renderSongs();
+    thisHomePage.renderSongs(homeElem);
     thisHomePage.filterByCategories();
   }
 
   getElements() {
     const thisHomePage = this;
+    
 
     thisHomePage.dom = {};
     thisHomePage.dom.wrapper = document.querySelector(select.containerOf.homePage);
@@ -29,7 +31,7 @@ class HomePage {
     const thisHomePage = this;
 
     for (let songData in thisHomePage.data.songs) {
-      new SongPage(thisHomePage.data.songs[songData], thisHomePage.dom.wrapper);
+      new Song(homeElem, thisHomePage.data.songs[songData], thisHomePage.dom.wrapper);
     }
     thisHomePage.initWidgets();
   }
@@ -58,7 +60,7 @@ class HomePage {
             const songCategories = thisHomePage.data.songs[songData].categories;
             
             if (songCategories.includes(activeCategory)){
-              new SongPage(thisHomePage.data.songs[songData], thisHomePage.dom.wrapper);
+              new Song(homeElem, thisHomePage.data.songs[songData], thisHomePage.dom.wrapper);
             }
           }
           thisHomePage.initWidgets();
@@ -82,7 +84,7 @@ class HomePage {
   }
 
   initWidgets() {
-    new PlayerPage(select.player.homePage) ;
+    new Player(select.player.homePage) ;
   }
 }
 

@@ -23,19 +23,59 @@
     </div>
   </header>
 
-  <div id="pages">
-    <section id="home">
+  <!-- HOMEPAGE TEMPLATE -->
+  <script id="template-home-page" type="text/x-handlebars-template">
       <div class="homepage-wrapper container">
         <div class="row category__wrapper">
           <div class="col-4 category__header">
             <p>Categories:</p>
           </div>
           <div class="col-8 category__list">
-            <ul class="categories"></ul>
+            <ul class="categories">
+            </ul>
           </div>
         </div>
-        <div class="songs-home"></div>
+      </script>
+  <!-- HOMEPAGE CATEGORY LIST TEMPLATE -->
+  <script id="template-category" type="text/x-handlebars-template">
+    <li class="category">
+      <a href="#" class="category__link" data-id="{{ name }}">
+       {{ name }}
+      </a>
+    </li>
+  </script>
+<!-- SONG TEMPLATE -->
+<script id="template-song" type="text/x-handlebars-template">
+  <div class="songs-home row">
+    <div class="song">
+      <h3 class="song__title">{{ author }} - {{ title }}</h3>
+      <div class="player">
+        <audio>
+            <source src="assets/songs/{{ filename }}" type="audio/mpeg">
+        </audio>
       </div>
+      <div class="song__info">
+        <div>
+          <p>Category: 
+          </p> 
+        </div>
+        <div class="song__categories">
+          {{#each categories}}
+            {{#if @last}}
+              {{this}}
+            {{else}}
+              {{this}},
+            {{/if}}
+          {{/each}}
+        </div>
+        <div>
+          <p>#{{ ranking }} in the ranking</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</script>
+    <section id="subscribe-now">
       <div class="subscribe">
         <h6>Subscribe <span>Now</span></h6>
           <div class="row">
@@ -58,19 +98,18 @@
             </div>
         </div>
       </div>
-    </section>
-    <section id="search">
+    </script>
+    <!-- SEARCHPAGE TEMPLATE -->
+    <script id="template-search-page" type="text/x-handlebars-template">
       <div class="search-wrapper container">
         <h4>Search</h4>
         <div class="row">
-          <div class="col-xs-12 col-md-3 col-xl-2 search__name"><h5>Name</h5></div>
+          <div class="col-xs-12 col-md-3 col-xl-2 search__name">
           <div class="col-xs-12 col-md-7 col-xl-3"><input type="text" id="searchInputName" title="Type in a name" class="searchInput"></div>
           <div class="col-xs-12 col-md-3 col-xl-2 search__category"><h5>Categories</h5></div>
           <div class="col-xs-12 col-md-7 col-xl-3">
-            <select id="categories__select" form="categories__form" class="searchInput">
-              <option value="first"></option>
-            </select>
           </div>
+                    
           <div class="col-xs-12 col-md-12 col-xl-2 search-button__wrapper">
             <button type="button" class="btn-primary search-button">Search</button>
           </div>
@@ -78,67 +117,24 @@
         <p class="search_success"></p>
         <div class="songs-search"></div>
       </div>
-    </section>
-    <section id="discover">
+    </script>
+    <!-- SEARCH CATEGORY SELECT TEMPLATE -->
+    <script id="template-category-select" type="text/x-handlebars-template">
+      <option value="{{ name }}">{{ name }}</option>
+    </script>
+
+    <!-- DISCOVERPAGE TEMPLATE -->
+    <script id="template-discover-page" type="text/x-handlebars-template">
       <div class="discover-wrapper container">
         <h4>Discover</h4>
         <h3>Give it a try!</h3>
         <div class="songs-discover"></div>
       </div>
-    </section>
+    </script>
     <section id="join-now">
       <div class="container"></div>
     </section>
-  </div>
-
-
   <footer><p>All rights reserved</p></footer>
-
-  <!-- SONG TEMPLATE -->
-  <script id="template-song" type="text/x-handlebars-template">
-    <div class="song-wrapper row">
-      <div class="song">
-        <h3 class="song__title">{{ author }} - {{ title }}</h3>
-        <div class="player">
-          <audio>
-              <source src="assets/songs/{{ filename }}" type="audio/mpeg">
-          </audio>
-        </div>
-        <div class="song__info">
-          <div>
-            <p>Category: 
-            </p> 
-          </div>
-          <div class="song__categories">
-            {{#each categories}}
-              {{#if @last}}
-                {{this}}
-              {{else}}
-                {{this}},
-              {{/if}}
-            {{/each}}
-          </div>
-          <div>
-            <p>#{{ ranking }} in the ranking</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </script>
-
-  <!-- HOMEPAGE TEMPLATE -->
-  <script id="template-category" type="text/x-handlebars-template">
-    <li class="category">
-      <a href="#" class="category__link" data-id="{{ name }}">
-       {{ name }}
-      </a>
-    </li>
-  </script>
-
-  <!-- SEARCH TEMPLATE -->
-  <script id="template-category-select" type="text/x-handlebars-template">
-    <option value="{{ name }}">{{ name }}</option>
-  </script>
 
   <script src="https://cdn.jsdelivr.net/gh/greghub/green-audio-player/dist/js/green-audio-player.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.1.0/handlebars.min.js"></script>

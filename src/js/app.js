@@ -1,5 +1,5 @@
 import {select, settings, classNames} from './settings.js';
-import MusicPage from './components/MusicPage.js';
+
 
 const app = {
   initData: function(){
@@ -27,27 +27,42 @@ const app = {
       .then(function([songs, authors]){
         thisApp.parseData(songs, authors);
       });
+      
   },
 
   parseData: function(songs, authors){
-    for(let song in songs){
+    const thisApp = this;
 
-      let songAuthor = songs[song].author;
+    thisApp.data={};
+    thisApp.data.songs= songs;
+    thisApp.data.authors= authors;
+    console.log('thisApp.data.songs', thisApp.data.songs);
+    console.log(' thisApp.data.authors',  thisApp.data.authors);
+    const formData = utils.serializeFormToObject(thisApp.data.songs);
+    thisApp.id={};
 
-      for(let author in authors){
-        const authorName = authors[author].name;
-        const authorID = authors[author].id;
-        
-        if(songAuthor === authorID){
-          songs[song].author = authorName;
-          break;
+    // for every id (param)
+    for(let songsId in thisApp.data.songs) {
+      const id = thisApp.data.songs[songsId];
+    
+        // create category param 
+        songsId[songsId] = {
+          label: id.label,
+          options: {}
+        };
+          for(let optionId in id.options) {
+            const option = id.options[optionId];
+            const optionSelected = formData[songsId] && formData[songsId].includes(optionId);
+
+        if(optionSelected) {
+          thisApp.id[songsId].options[optionId] = option.label;
         }
       }
+      return thisApp.id;
     }
-  
-    new MusicPage(songs);
+    console.log('thisApp.id', thisApp.id);
   },
-
+  
   initPages: function(){
     const thisApp = this;
 
@@ -95,6 +110,23 @@ const app = {
       );
     }
   },
+  initHomePage: function() {
+    const thisApp = this;
+
+    const homeElem = document.querySelector(select.containerOf.homePage);
+
+    thisApp.HomePage = new HomePage(homeElem);
+  },
+  initDiscoverPage: function() {
+    const thisApp = this;
+    const discoverElem = document.querySelector(select.containerOf.discoverPage);
+    thisApp.DiscoverPage = new DiscoverPage(discoverElem);
+  },
+  initSearchPage: function() {
+    const thisApp = this;
+    const searchElem = document.querySelector(select.containerOf.searchPage);
+    thisApp.SearchPage = new SearchPage(searchElem);
+  },
 
   init: function(){
     const thisApp = this;
@@ -107,6 +139,9 @@ const app = {
     console.log('classNames:', classNames);
 
     thisApp.initData();
+    thisApp.initHomePage();
+    thisApp.initDiscoverPage();
+    thisApp.initSearchPage();
     thisApp.initPages();
 
     //console.log('data', thisApp.data);

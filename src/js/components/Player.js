@@ -1,8 +1,8 @@
-class PlayerPage {
+class Player {
   constructor(selector) {
-    const thisPlayerPage = this;
+    const thisPlayer = this;
   
-    thisPlayerPage.initPlayer(selector);
+    thisPlayer.initPlayer(selector);
   }
   
   initPlayer(selector) {
@@ -14,4 +14,4 @@ class PlayerPage {
   }
 }
   
-export default PlayerPage;
+export default Player;

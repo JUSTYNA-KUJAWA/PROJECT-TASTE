@@ -1,10 +1,10 @@
-import SongPage from './SongPage.js';
+import Song from './Song.js';
 import { select } from './../settings.js';
 import utils from '../utils.js';
-import PlayerPage from './PlayerPage.js';
+import Player from './Player.js';
 
 class DiscoverPage {
-  constructor(songsData, categories) {
+  constructor(discoverElem, songsData, categories) {
     const thisDiscoverPage = this;
 
     thisDiscoverPage.data = {};
@@ -14,7 +14,7 @@ class DiscoverPage {
 
     thisDiscoverPage.getElements();
     thisDiscoverPage.updateFavoriteCategories();
-    thisDiscoverPage.renderSongs();
+    thisDiscoverPage.renderSongs(discoverElem);
   }
 
   getElements() {
@@ -79,15 +79,15 @@ class DiscoverPage {
         }
       }
 
-      new SongPage(songsOfFavoriteCategories[utils.randomize(songsOfFavoriteCategories)], thisDiscoverPage.dom.wrapper);
+      new Song(songsOfFavoriteCategories[utils.randomize(songsOfFavoriteCategories)], thisDiscoverPage.dom.wrapper);
     } else {
-      new SongPage(thisDiscoverPage.data.songs[utils.randomize(thisDiscoverPage.data.songs)], thisDiscoverPage.dom.wrapper);
+      new Song(thisDiscoverPage.data.songs[utils.randomize(thisDiscoverPage.data.songs)], thisDiscoverPage.dom.wrapper);
     }
     thisDiscoverPage.initWidgets();
   }
 
   initWidgets() {
-    new PlayerPage (select.player.discoverPage) ;
+    new Player (select.player.discoverPage) ;
   }
 }
 

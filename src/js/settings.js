@@ -60,7 +60,7 @@ export const settings = {
 };
 
 export const templates = {
-  songTemplate: Handlebars.compile(document.querySelector(select.templateOf.songs).innerHTML),
-  categoryTemplate: Handlebars.compile(document.querySelector(select.templateOf.categories).innerHTML),
-  categorySelectTemplate: Handlebars.compile(document.querySelector(select.templateOf.categoriesSelect).innerHTML),
+songTemplate: Handlebars.compile(document.querySelector(select.templateOf.songs).innerHTML),
+categoryTemplate: Handlebars.compile(document.querySelector(select.templateOf.categories).innerHTML),
+categorySelectTemplate: Handlebars.compile(document.querySelector(select.templateOf.categoriesSelect).innerHTML),
 };
