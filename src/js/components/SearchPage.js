@@ -4,14 +4,14 @@ import utils from '../utils.js';
 import Player from './Player.js';
 
 class SearchPage {
-  constructor(searchElem, songsData) {
+  constructor(songsData) {
     const thisSearchPage = this;
 
     thisSearchPage.data = {};
     thisSearchPage.data.songs = songsData;
 
     thisSearchPage.getElements();
-    thisSearchPage.renderSongs(searchElem);
+    thisSearchPage.renderSongs();
     thisSearchPage.initWidgets();
   }
 

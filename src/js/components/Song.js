@@ -1,61 +1,58 @@
-import {templates} from '../settings.js';
+import { templates } from '../settings.js';
 import utils from '../utils.js';
 
 class Song {
-  constructor(id, data){
+  constructor(authors, song, wrapper) {
     const thisSong = this;
-  
-    thisSong.id = id;
-    thisSong.data = data;
-  
-    console.log(thisSong);
-  
-    thisSong.getElements();
+    const authorName = this.determineAuthor(authors);
+
+    thisSong.data = {};
+    thisSong.data.song = data;
+    let data = {
+      id: song.id,
+      title: song.title,
+      authorName: authorName,
+      filename: song.filename,
+      categories: song.categories,
+      ranking: song.ranking
+    };
+
+    
+
+    thisSong.getElements(wrapper);
     thisSong.render();
-    thisSong.generateCategories();
-  
   }
-  
-  getElements(){
+
+  getElements(wrapper) {
     const thisSong = this;
-  
+
     thisSong.dom = {};
     thisSong.dom.wrapper = wrapper;
-    thisSong.dom.categoryList = document.querySelector(select.listOf.categories);
-    thisSong.dom.categorySelect = document.querySelector(select.formOf.categoriesSelect);
   }
-  
-  render(){
+
+  render() {
     const thisSong = this;
-    const linkHtmlData = {name: category};
-  
-    const generatedHTML = templates.songTemplate(thisSong.data.song);
-    const categoriesListHTML = templates.categoryTemplate(linkHtmlData);
-    const categoriesSelectsHTML = templates.categorySelectTemplate(linkHtmlData);
-  
-    const songDOM = utils.createDOMFromHTML(generatedHTML);
-    const categoryListDOM = utils.createDOMFromHTML(categoriesListHTML);
-    const categorySelectDOM = utils.createDOMFromHTML(categoriesSelectsHTML);
     
+    const generatedHTML = templates.songTemplate(thisSong.data.song);
+    const songDOM = utils.createDOMFromHTML(generatedHTML);
     thisSong.dom.wrapper.appendChild(songDOM);
-    thisSong.dom.categoryList.appendChild(categoryListDOM);
-    thisSong.dom.categorySelect.appendChild(categorySelectDOM);
-
   }
-  generateCategories(){
-    const thisSong = this;
+  determineAuthor(songs,authors){
+    for(let song in songs){
 
-    for(let song of thisSong.data.songs){
-      const songCategories = song.categories;
+      let songAuthor = songs[song].author;
 
-      for(let item of songCategories){
-        if(!thisSong.data.categories.includes(item)){
-          thisSong.data.categories.push(item);
+      for(let author in authors){
+        const authorName = authors[author].name;
+        const authorID = authors[author].id;
+      
+        if(songAuthor === authorID){
+          songs[song].author = authorName;
+          break;
         }
       }
     }
   }
-
 }
-  
+
 export default Song;

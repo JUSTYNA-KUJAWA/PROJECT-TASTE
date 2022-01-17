@@ -4,17 +4,17 @@ import utils from '../utils.js';
 import Player from './Player.js';
 
 class DiscoverPage {
-  constructor(discoverElem, songsData, categories) {
+  constructor(data, categories) {
     const thisDiscoverPage = this;
 
     thisDiscoverPage.data = {};
-    thisDiscoverPage.data.songs = songsData;
+    thisDiscoverPage.data.songs = data;
     thisDiscoverPage.data.categories = categories;
     thisDiscoverPage.data.favoriteCategories = {};
 
     thisDiscoverPage.getElements();
     thisDiscoverPage.updateFavoriteCategories();
-    thisDiscoverPage.renderSongs(discoverElem);
+    thisDiscoverPage.renderSongs();
   }
 
   getElements() {
@@ -87,7 +87,7 @@ class DiscoverPage {
   }
 
   initWidgets() {
-    new Player (select.player.discoverPage) ;
+    new Player(select.player.discoverPage) ;
   }
 }
 

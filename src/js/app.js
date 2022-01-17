@@ -1,68 +1,9 @@
 import {select, settings, classNames} from './settings.js';
-
+import HomePage from './components/HomePage.js';
+import SearchPage from './components/SearchPage.js';
+import DiscoverPage from './components/DiscoverPage.js';
 
 const app = {
-  initData: function(){
-    const thisApp = this;
-
-    thisApp.data = {};
-
-    const urls = {
-      songs: settings.db.url + '/' + settings.db.songs,
-      authors: settings.db.url + '/' + settings.db.authors,
-    };
-
-    Promise.all([
-      fetch(urls.songs),
-      fetch(urls.authors),
-    ])
-      .then(function(allResponses){
-        const songsResponse = allResponses[0];
-        const authorsResponse = allResponses[1];
-        return Promise.all([
-          songsResponse.json(),
-          authorsResponse.json(),
-        ]);
-      })
-      .then(function([songs, authors]){
-        thisApp.parseData(songs, authors);
-      });
-      
-  },
-
-  parseData: function(songs, authors){
-    const thisApp = this;
-
-    thisApp.data={};
-    thisApp.data.songs= songs;
-    thisApp.data.authors= authors;
-    console.log('thisApp.data.songs', thisApp.data.songs);
-    console.log(' thisApp.data.authors',  thisApp.data.authors);
-    const formData = utils.serializeFormToObject(thisApp.data.songs);
-    thisApp.id={};
-
-    // for every id (param)
-    for(let songsId in thisApp.data.songs) {
-      const id = thisApp.data.songs[songsId];
-    
-        // create category param 
-        songsId[songsId] = {
-          label: id.label,
-          options: {}
-        };
-          for(let optionId in id.options) {
-            const option = id.options[optionId];
-            const optionSelected = formData[songsId] && formData[songsId].includes(optionId);
-
-        if(optionSelected) {
-          thisApp.id[songsId].options[optionId] = option.label;
-        }
-      }
-      return thisApp.id;
-    }
-    console.log('thisApp.id', thisApp.id);
-  },
-  
   initPages: function(){
     const thisApp = this;
 
@@ -110,6 +51,51 @@ const app = {
       );
     }
   },
+
+  initData: function(){
+    const thisApp = this;
+
+    thisApp.data = {};
+
+    const urls = {
+      songs: settings.db.url + '/' + settings.db.songs,
+      authors: settings.db.url + '/' + settings.db.authors,
+    };
+
+    Promise.all([
+      fetch(urls.songs),
+      fetch(urls.authors),
+    ])
+      .then(function(allResponses){
+        const songsResponse = allResponses[0];
+        const authorsResponse = allResponses[1];
+        return Promise.all([
+          songsResponse.json(),
+          authorsResponse.json(),
+        ]);
+      })
+      .then(function([songs, authors]){
+        thisApp.parseData(songs, authors);
+      });  
+  },
+
+  parseData(songs, authors){
+    const thisApp = this;
+    thisApp.data.songs = songs;
+    thisApp.data.authors = authors;
+    //thisApp.songs.params = {;
+      let data = {
+        id: songs.id,
+        title: songs.title,
+        author: songs.author,
+        filename: songs.filename,
+        categories: songs.categories,
+        ranking: songs.ranking
+      };
+      return data;
+    },
+  
+
   initHomePage: function() {
     const thisApp = this;
 
