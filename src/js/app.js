@@ -76,6 +76,9 @@ const app = {
       })
       .then(function([songs, authors]){
         thisApp.parseData(songs, authors);
+        thisApp.initHomePage();
+        thisApp.initDiscoverPage();
+        thisApp.initSearchPage();
       });  
   },
 
@@ -83,35 +86,51 @@ const app = {
     const thisApp = this;
     thisApp.data.songs = songs;
     thisApp.data.authors = authors;
-    //thisApp.songs.params = {;
-      let data = {
-        id: songs.id,
-        title: songs.title,
-        author: songs.author,
-        filename: songs.filename,
-        categories: songs.categories,
-        ranking: songs.ranking
-      };
-      return data;
-    },
+    thisApp.data.categories = [];//znalesc kategorie
+    for(let song of thisApp.data.songs){
+      const songCategories = song.categories;
+
+      for(let item of songCategories){
+        if(!thisApp.data.categories.includes(item)){
+          thisApp.data.categories.push(item);
+        }
+      }
+    }
+
+    thisApp.data.authorsName = [];
+    for(let song in songs){
+
+      let songAuthor = songs[song].author;
+
+      for(let author in authors){
+        const authorName = authors[author].name;
+        const authorID = authors[author].id;
+        
+        if(songAuthor === authorID){
+          songs[song].author = authorName;
+          break;
+        }
+      }
+    }
+  },
   
 
   initHomePage: function() {
     const thisApp = this;
 
     const homeElem = document.querySelector(select.containerOf.homePage);
-
-    thisApp.HomePage = new HomePage(homeElem);
+    console.log('thisApp.data', thisApp.data);
+    thisApp.HomePage = new HomePage(homeElem, thisApp.data.songs,thisApp.data.categories,thisApp.data.authors);
   },
   initDiscoverPage: function() {
     const thisApp = this;
     const discoverElem = document.querySelector(select.containerOf.discoverPage);
-    thisApp.DiscoverPage = new DiscoverPage(discoverElem);
+    thisApp.DiscoverPage = new DiscoverPage(discoverElem, thisApp.data.songs,thisApp.data.categories,thisApp.data.authors);
   },
   initSearchPage: function() {
     const thisApp = this;
     const searchElem = document.querySelector(select.containerOf.searchPage);
-    thisApp.SearchPage = new SearchPage(searchElem);
+    thisApp.SearchPage = new SearchPage(searchElem,thisApp.data.songs,thisApp.data.categories,thisApp.data.authors);
   },
 
   init: function(){
@@ -125,9 +144,6 @@ const app = {
     console.log('classNames:', classNames);
 
     thisApp.initData();
-    thisApp.initHomePage();
-    thisApp.initDiscoverPage();
-    thisApp.initSearchPage();
     thisApp.initPages();
 
     //console.log('data', thisApp.data);

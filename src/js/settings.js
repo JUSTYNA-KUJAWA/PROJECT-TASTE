@@ -11,6 +11,9 @@ export const select = {
     discoverPage: '.songs-discover',
     joinPage: '.join-now',
   },
+  paramSong: {
+    form: '.song',
+  },
   listOf: {
     categories: '.categories',
   },

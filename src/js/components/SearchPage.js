@@ -1,27 +1,59 @@
 import Song from './Song.js';
-import { select } from './../settings.js';
+import { select, templates } from './../settings.js';
 import utils from '../utils.js';
 import Player from './Player.js';
 
 class SearchPage {
-  constructor(songsData) {
+  constructor(wrapper, songs, categories, authors) {
     const thisSearchPage = this;
 
     thisSearchPage.data = {};
-    thisSearchPage.data.songs = songsData;
+    thisSearchPage.data.songs = songs;
+    thisSearchPage.data.categories = categories;
+    thisSearchPage.data.authors = authors;
+    console.log('thisSearchPage.data.songs',thisSearchPage.data.songs)
 
-    thisSearchPage.getElements();
+    thisSearchPage.renderInMenu();
+    thisSearchPage.getElements(wrapper);
+    thisSearchPage.renderCategories();
     thisSearchPage.renderSongs();
-    thisSearchPage.initWidgets();
+    
   }
-
-  getElements() {
+  renderInMenu() {
+    const thisSearchPage = this;
+    /* generate HTML based on template */
+    const generatedHTML = templates.categorySelectTemplate(thisSearchPage.data.songs);
+    const generatedSongHTML = templates.songTemplate(thisSearchPage.data.songs);
+    /* create element using utils.createElementFromHTML */
+    thisSearchPage.element = utils.createDOMFromHTML(generatedHTML);
+    thisSearchPage.songElem = utils.createDOMFromHTML(generatedSongHTML);
+    /* find menu container */
+    const menuContainer = document.querySelector(select.containerOf.searchPage);
+    /* add element to menu */
+    menuContainer.appendChild(thisSearchPage.element,thisSearchPage.songElem);
+  }
+  getElements(wrapper) {
     const thisSearchPage = this;
 
     thisSearchPage.dom = {};
-    thisSearchPage.dom.wrapper = document.querySelector(select.containerOf.searchPage);
+    thisSearchPage.dom.wrapper = wrapper;
+    thisSearchPage.dom.songsSearch = document.querySelector(select.containerOf.searchPage);
+    thisSearchPage.dom.categorySelect = document.querySelector(select.formOf.categoriesSelect);
+   
   }
+  renderCategories(){
+    const thisSearchPage = this;
 
+    for(let category of thisSearchPage.data.categories){
+      const linkHtmlData = {name: category};
+  
+      const categoriesSelectsHTML = templates.categorySelectTemplate(linkHtmlData);
+
+      const categorySelectDOM = utils.createDOMFromHTML(categoriesSelectsHTML);
+
+      thisSearchPage.dom.categorySelect.appendChild(categorySelectDOM);
+    }
+  }
   renderSongs() {
     const thisSearchPage = this;
 
@@ -67,7 +99,7 @@ class SearchPage {
       }
 
       for (let song of matchedSongs){
-        new Song(song, thisSearchPage.dom.wrapper);
+        new Song(thisSearchPage.data.authors,thisSearchPage.data.songs[song], thisSearchPage.dom.wrapper,song);
       }
       
       thisSearchPage.initWidgets();

@@ -1,32 +1,47 @@
 import Song from './Song.js';
-import { select } from './../settings.js';
+import { select, templates } from './../settings.js';
 import utils from '../utils.js';
 import Player from './Player.js';
 
 class DiscoverPage {
-  constructor(data, categories) {
+  constructor(wrapper, songs, categories, authors) {
     const thisDiscoverPage = this;
 
     thisDiscoverPage.data = {};
-    thisDiscoverPage.data.songs = data;
+    thisDiscoverPage.data.songs = songs;
     thisDiscoverPage.data.categories = categories;
-    thisDiscoverPage.data.favoriteCategories = {};
-
-    thisDiscoverPage.getElements();
+    thisDiscoverPage.data.authors = authors;
+    console.log('thisDiscoverPage.data.songs', thisDiscoverPage.data.songs)
+ 
+    
+    thisDiscoverPage.renderInMenu();
+    thisDiscoverPage.getElements(wrapper);
     thisDiscoverPage.updateFavoriteCategories();
     thisDiscoverPage.renderSongs();
   }
+  renderInMenu() {
+    const thisDiscoverPage = this;
+    /* generate HTML based on template */
+    const generatedHTML = templates.songTemplate(thisDiscoverPage.data.songs);
+    /* create element using utils.createElementFromHTML */
+    thisDiscoverPage.element = utils.createDOMFromHTML(generatedHTML);
+    /* find menu container */
+    const wrapper = document.querySelector(select.containerOf.discoverPage);
+    /* add element to menu */
+    wrapper.appendChild( thisDiscoverPage.element);
+  }
 
-  getElements() {
+  getElements(wrapper) {
     const thisDiscoverPage = this;
 
     thisDiscoverPage.dom = {};
-    thisDiscoverPage.dom.wrapper = document.querySelector(select.containerOf.discoverPage);
+    thisDiscoverPage.dom.wrapper = wrapper;
+    thisDiscoverPage.dom.songsDiscover = document.querySelector(select.containerOf.discoverPage);
   }
 
   updateFavoriteCategories(){
     const thisDiscoverPage = this;
-
+    thisDiscoverPage.data.favoriteCategories = {};
     for (let category of thisDiscoverPage.data.categories){
       thisDiscoverPage.data.favoriteCategories[category] = 0;
     }
@@ -57,7 +72,7 @@ class DiscoverPage {
   renderSongs() {
     const thisDiscoverPage = this;
 
-    utils.resetWrapper(thisDiscoverPage.dom.wrapper);
+    utils.resetWrapper(thisDiscoverPage.dom.songsDiscover);
 
     const favoriteCategoryMax = utils.calculateMaxValue(thisDiscoverPage.data.favoriteCategories);
 
@@ -79,9 +94,9 @@ class DiscoverPage {
         }
       }
 
-      new Song(songsOfFavoriteCategories[utils.randomize(songsOfFavoriteCategories)], thisDiscoverPage.dom.wrapper);
+      new Song(thisDiscoverPage.data.authors,thisDiscoverPage.data.songs,thisDiscoverPage.dom.wrapper,songsOfFavoriteCategories[utils.randomize(songsOfFavoriteCategories)]);
     } else {
-      new Song(thisDiscoverPage.data.songs[utils.randomize(thisDiscoverPage.data.songs)], thisDiscoverPage.dom.wrapper);
+      new Song(thisDiscoverPage.data.authors,thisDiscoverPage.data.songs,thisDiscoverPage.dom.wrapper,thisDiscoverPage.data.songs[utils.randomize(thisDiscoverPage.data.songs)]);
     }
     thisDiscoverPage.initWidgets();
   }

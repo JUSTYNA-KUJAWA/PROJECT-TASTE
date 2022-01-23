@@ -4,63 +4,70 @@ import utils from '../utils.js';
 import Player from './Player.js';
 
 class HomePage {
-  constructor(songs,categories) {
+  constructor(wrapper, songs, categories, authors) {
     const thisHomePage = this;
-
-    thisHomePage.data= {};
+ 
+    thisHomePage.data={};
     thisHomePage.data.songs= songs;
-    thisHomePage.data.songs.categories = categories;
-
-    thisHomePage.getElements();
-    thisHomePage.generateCategories();
-    thisHomePage.renderCategories();
+    thisHomePage.data.categories= categories;
+    thisHomePage.data.authors= authors;
+  
+    thisHomePage.renderInMenu();
+    thisHomePage.getElements(wrapper);
     thisHomePage.renderSongs();
+    thisHomePage.renderCategories();
     thisHomePage.filterByCategories();
+    
+    
   }
 
-  getElements() {
+  renderInMenu() {
+    const thisHomePage = this;
+    /* generate HTML based on template */
+    const generatedHTML = templates.songTemplate(thisHomePage.data.songs);
+    /* create element using utils.createElementFromHTML */
+    thisHomePage.element = utils.createDOMFromHTML(generatedHTML);
+    /* find menu container */
+    const menuContainer = document.querySelector(select.containerOf.homePage);
+    /* add element to menu */
+    menuContainer.appendChild(thisHomePage.element);
+  }
+  getElements(wrapper) {
     const thisHomePage = this;
 
     thisHomePage.dom = {};
-    thisHomePage.dom.wrapper = document.querySelector(select.containerOf.homePage);
+    thisHomePage.dom.wrapper = wrapper;
     thisHomePage.dom.categoryList = document.querySelector(select.listOf.categories);
     thisHomePage.dom.categoryLinks = document.querySelectorAll(select.linksOf.categories);
+    thisHomePage.dom.songsHome = document.querySelector(select.containerOf.homePage);
+   
   }
-  generateCategories(){
-    const thisHomePage = this;
 
-    for(let song of thisHomePage.data.songs){
-      const songCategories = song.categories;
-
-      for(let item of songCategories){
-        if(!thisHomePage.data.categories.includes(item)){
-          thisHomePage.data.categories.push(item);
-        }
-      }
-    }
-  }
   renderCategories(){
     const thisHomePage = this;
 
     for(let category of thisHomePage.data.categories){
       const linkHtmlData = {name: category};
       const categoriesListHTML = templates.categoryTemplate(linkHtmlData);
-      const categoriesSelectsHTML = templates.categorySelectTemplate(linkHtmlData);
+
 
       const categoryListDOM = utils.createDOMFromHTML(categoriesListHTML);
-      const categorySelectDOM = utils.createDOMFromHTML(categoriesSelectsHTML);
+   
 
       thisHomePage.dom.categoryList.appendChild(categoryListDOM);
-      thisHomePage.dom.categorySelect.appendChild(categorySelectDOM);
+     
     }
   }
   renderSongs() {
     const thisHomePage = this;
 
-    for (let songs in thisHomePage.data.songs) {
-      new Song(thisHomePage.data.songs[songs], thisHomePage.dom.wrapper);
+    for (let song in thisHomePage.data.songs) {
+      new Song(thisHomePage.data.authors,thisHomePage.data.songs[song], thisHomePage.dom.wrapper);
     }
     thisHomePage.initWidgets();
+  }
+  initWidgets() {
+    new Player(select.player.homePage) ;
   }
 
   filterByCategories(){
@@ -87,7 +94,7 @@ class HomePage {
             const songCategories = thisHomePage.data.songs[songs].categories;
             
             if (songCategories.includes(activeCategory)){
-              new Song(thisHomePage.data.songs[songs], thisHomePage.dom.wrapper);
+              new Song(thisHomePage.data.authors,thisHomePage.data.songs[songs], thisHomePage.dom.wrapper);
             }
           }
           thisHomePage.initWidgets();
@@ -110,9 +117,7 @@ class HomePage {
     }
   }
 
-  initWidgets() {
-    new Player(select.player.homePage) ;
-  }
+
 }
 
 export default HomePage;
