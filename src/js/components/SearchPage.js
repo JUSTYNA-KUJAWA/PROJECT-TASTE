@@ -11,35 +11,44 @@ class SearchPage {
     thisSearchPage.data.songs = songs;
     thisSearchPage.data.categories = categories;
     thisSearchPage.data.authors = authors;
-    console.log('thisSearchPage.data.songs',thisSearchPage.data.songs)
-
-    thisSearchPage.renderInMenu();
-    thisSearchPage.getElements(wrapper);
-    thisSearchPage.renderCategories();
-    thisSearchPage.renderSongs();
     
+    thisSearchPage.renderCategorySelect();
+    thisSearchPage.renderSongSearch();
+    thisSearchPage.getElements(wrapper);
+    thisSearchPage.initSearchForm();
+    thisSearchPage.renderCategories();
+    
+      
   }
-  renderInMenu() {
+  renderCategorySelect() {
     const thisSearchPage = this;
     /* generate HTML based on template */
-    const generatedHTML = templates.categorySelectTemplate(thisSearchPage.data.songs);
+    const generatedHTML = templates.categorySelectTemplate(thisSearchPage.data.categories);
+    /* create element using utils.createElementFromHTML */
+    thisSearchPage.categoryElement = utils.createDOMFromHTML(generatedHTML);
+    /* find menu container */
+    const categoryContainer = document.querySelector(select.containerOf.searchPage);
+    /* add element to menu */
+    categoryContainer.appendChild(thisSearchPage.categoryElement);
+  }
+  renderSongSearch() {
+    const thisSearchPage = this;
+    /* generate HTML based on template */
     const generatedSongHTML = templates.songTemplate(thisSearchPage.data.songs);
     /* create element using utils.createElementFromHTML */
-    thisSearchPage.element = utils.createDOMFromHTML(generatedHTML);
-    thisSearchPage.songElem = utils.createDOMFromHTML(generatedSongHTML);
+    thisSearchPage.songElement = utils.createDOMFromHTML(generatedSongHTML);
     /* find menu container */
-    const menuContainer = document.querySelector(select.containerOf.searchPage);
+    const songContainer = document.querySelector(select.containerOf.searchPage);
     /* add element to menu */
-    menuContainer.appendChild(thisSearchPage.element,thisSearchPage.songElem);
+    songContainer.appendChild(thisSearchPage.songElement);
   }
   getElements(wrapper) {
     const thisSearchPage = this;
 
     thisSearchPage.dom = {};
     thisSearchPage.dom.wrapper = wrapper;
-    thisSearchPage.dom.songsSearch = document.querySelector(select.containerOf.searchPage);
     thisSearchPage.dom.categorySelect = document.querySelector(select.formOf.categoriesSelect);
-   
+    thisSearchPage.dom.songsSearch = document.querySelector(select.containerOf.searchPage);
   }
   renderCategories(){
     const thisSearchPage = this;
@@ -54,7 +63,7 @@ class SearchPage {
       thisSearchPage.dom.categorySelect.appendChild(categorySelectDOM);
     }
   }
-  renderSongs() {
+  initSearchForm() {
     const thisSearchPage = this;
 
     const button = document.querySelector(select.searchElements.button);
@@ -97,9 +106,8 @@ class SearchPage {
           }
         }
       }
-
       for (let song of matchedSongs){
-        new Song(thisSearchPage.data.authors,thisSearchPage.data.songs[song], thisSearchPage.dom.wrapper,song);
+        new Song(thisSearchPage.data.authors,thisSearchPage.data.songs, thisSearchPage.dom.wrapper,song);
       }
       
       thisSearchPage.initWidgets();

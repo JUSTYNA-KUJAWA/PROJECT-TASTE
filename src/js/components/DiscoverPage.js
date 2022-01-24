@@ -11,7 +11,7 @@ class DiscoverPage {
     thisDiscoverPage.data.songs = songs;
     thisDiscoverPage.data.categories = categories;
     thisDiscoverPage.data.authors = authors;
-    console.log('thisDiscoverPage.data.songs', thisDiscoverPage.data.songs)
+    console.log('thisDiscoverPage.data.categories', thisDiscoverPage.data.categories);
  
     
     thisDiscoverPage.renderInMenu();
