@@ -94,9 +94,9 @@ class DiscoverPage {
         }
       }
 
-      new Song(thisDiscoverPage.data.authors,thisDiscoverPage.data.songs,thisDiscoverPage.dom.wrapper,songsOfFavoriteCategories[utils.randomize(songsOfFavoriteCategories)]);
+      new Song(thisDiscoverPage.data.authors,songsOfFavoriteCategories[utils.randomize(songsOfFavoriteCategories)],thisDiscoverPage.dom.wrapper);
     } else {
-      new Song(thisDiscoverPage.data.authors,thisDiscoverPage.data.songs,thisDiscoverPage.dom.wrapper,thisDiscoverPage.data.songs[utils.randomize(thisDiscoverPage.data.songs)]);
+      new Song(thisDiscoverPage.data.authors,thisDiscoverPage.data.songs[utils.randomize(thisDiscoverPage.data.songs)],thisDiscoverPage.dom.wrapper);
     }
     thisDiscoverPage.initWidgets();
   }

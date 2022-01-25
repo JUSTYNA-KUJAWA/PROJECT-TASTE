@@ -81,7 +81,7 @@ class SearchPage {
 
       numberOfSongs = 0;
       matchedSongs = [];
-  
+      
       let selectedCategory = categoriesSelect.value;
 
       if(input.value === '' && selectedCategory === 'first'){
@@ -107,7 +107,7 @@ class SearchPage {
         }
       }
       for (let song of matchedSongs){
-        new Song(thisSearchPage.data.authors,thisSearchPage.data.songs, thisSearchPage.dom.wrapper,song);
+        new Song(thisSearchPage.data.authors,song, thisSearchPage.dom.wrapper);
       }
       
       thisSearchPage.initWidgets();
