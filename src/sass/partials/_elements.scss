@@ -1,4 +1,16 @@
-
-//.btn-primary {
-//@include btn ($color-main, $color-light, $color-main);
-//}//
+.btn-primary {
+    background: #cf383e;
+    color: #fff;
+    border-color: #cf383e;
+    border-radius: 10px;
+    transition: all 0.3s;
+    display: inline-block;
+    border-width: 1px;
+    padding: 17px 25px;
+    text-transform: uppercase;
+    text-align: center;
+    font-weight: 600;
+    font-size: 20px;
+    letter-spacing: 5px;
+    text-indent: 5px;
+}

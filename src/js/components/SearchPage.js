@@ -13,12 +13,10 @@ class SearchPage {
     thisSearchPage.data.authors = authors;
     
     thisSearchPage.renderCategorySelect();
-    thisSearchPage.renderSongSearch();
     thisSearchPage.getElements(wrapper);
     thisSearchPage.initSearchForm();
     thisSearchPage.renderCategories();
-    
-      
+       
   }
   renderCategorySelect() {
     const thisSearchPage = this;
@@ -31,17 +29,7 @@ class SearchPage {
     /* add element to menu */
     categoryContainer.appendChild(thisSearchPage.categoryElement);
   }
-  renderSongSearch() {
-    const thisSearchPage = this;
-    /* generate HTML based on template */
-    const generatedSongHTML = templates.songTemplate(thisSearchPage.data.songs);
-    /* create element using utils.createElementFromHTML */
-    thisSearchPage.songElement = utils.createDOMFromHTML(generatedSongHTML);
-    /* find menu container */
-    const songContainer = document.querySelector(select.containerOf.searchPage);
-    /* add element to menu */
-    songContainer.appendChild(thisSearchPage.songElement);
-  }
+
   getElements(wrapper) {
     const thisSearchPage = this;
 

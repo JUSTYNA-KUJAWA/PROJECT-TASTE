@@ -12,7 +12,7 @@ class HomePage {
     thisHomePage.data.categories= categories;
     thisHomePage.data.authors= authors;
   
-    thisHomePage.renderInMenu();
+    
     thisHomePage.getElements(wrapper);
     thisHomePage.renderSongs();
     thisHomePage.renderCategories();
@@ -21,17 +21,6 @@ class HomePage {
     
   }
 
-  renderInMenu() {
-    const thisHomePage = this;
-    /* generate HTML based on template */
-    const generatedHTML = templates.songTemplate(thisHomePage.data.songs);
-    /* create element using utils.createElementFromHTML */
-    thisHomePage.element = utils.createDOMFromHTML(generatedHTML);
-    /* find menu container */
-    const menuContainer = document.querySelector(select.containerOf.homePage);
-    /* add element to menu */
-    menuContainer.appendChild(thisHomePage.element);
-  }
   getElements(wrapper) {
     const thisHomePage = this;
 
