@@ -77,23 +77,32 @@ class SearchPage {
           matchedSongs.push(thisSearchPage.data.songs[songData]);
         } 
       } else {
-        if(input.value !== ''){
+        if(input.value !== '' && selectedCategory === 'first'){
           for (let songData in thisSearchPage.data.songs){
             if (thisSearchPage.data.songs[songData].filename.toString().toUpperCase().includes(input.value.toUpperCase())) {
               matchedSongs.push(thisSearchPage.data.songs[songData]);
             } 
           }
-        }
-  
-        for (let songData in thisSearchPage.data.songs){
-          const songCategories = thisSearchPage.data.songs[songData].categories;
-          if (songCategories.includes(selectedCategory)){
-            if(!matchedSongs.includes(thisSearchPage.data.songs[songData])){
-              matchedSongs.push(thisSearchPage.data.songs[songData]);
+        } else {
+          if(input.value === '' && selectedCategory !== 'first')
+            for (let songData in thisSearchPage.data.songs){
+            const songCategories = thisSearchPage.data.songs[songData].categories;
+            if (songCategories.includes(selectedCategory)){
+              if(!matchedSongs.includes(thisSearchPage.data.songs[songData])){
+                matchedSongs.push(thisSearchPage.data.songs[songData]);
+              }
+            }
+          } else {
+            if(input.value !== '' && selectedCategory !== 'first')
+            for (let songData in thisSearchPage.data.songs){
+              if (thisSearchPage.data.songs[songData].filename.toString().toUpperCase().includes(input.value.toUpperCase())) {
+                matchedSongs.push(thisSearchPage.data.songs[songData]);
+              } 
             }
           }
-        }
-      }
+    } 
+  }
+  
       for (let song of matchedSongs){
         new Song(thisSearchPage.data.authors,song, thisSearchPage.dom.wrapper);
       }

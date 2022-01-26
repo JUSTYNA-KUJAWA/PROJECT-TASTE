@@ -14,12 +14,12 @@ class DiscoverPage {
     console.log('thisDiscoverPage.data.categories', thisDiscoverPage.data.categories);
  
     
-    thisDiscoverPage.renderInMenu();
+    thisDiscoverPage.renderSongInMenu();
     thisDiscoverPage.getElements(wrapper);
     thisDiscoverPage.updateFavoriteCategories();
     thisDiscoverPage.renderSongs();
   }
-  renderInMenu() {
+  renderSongInMenu() {
     const thisDiscoverPage = this;
     /* generate HTML based on template */
     const generatedHTML = templates.songTemplate(thisDiscoverPage.data.songs);

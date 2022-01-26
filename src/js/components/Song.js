@@ -9,10 +9,10 @@ class Song {
     thisSong.data.songs= songs;
     thisSong.data.authors= authors;
 
-    thisSong.renderInMenu(wrapper);
+    thisSong.renderSongList(wrapper);
     thisSong.getElements(wrapper); 
   }
-  renderInMenu(wrapper) {
+  renderSongList(wrapper) {
     const thisSong = this;
       
     const generatedHTML = templates.songTemplate(thisSong.data.songs);
